@@ -1,0 +1,44 @@
+{
+  "manifest_version": 2,
+  "name": "LinkedIn Shield",
+  "version": "1.0.0",
+  "description": "Blocks LinkedIn's browser fingerprinting, extension scanning, and third-party surveillance trackers (BrowserGate).",
+  "icons": {
+    "48": "icons/icon48.png",
+    "96": "icons/icon96.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "48": "icons/icon48.png"
+    },
+    "default_popup": "popup.html",
+    "default_title": "LinkedIn Shield"
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
+    "tabs",
+    "activeTab",
+    "*://*.linkedin.com/*",
+    "*://*.licdn.com/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.linkedin.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "linkedin-shield@browsergate",
+      "strict_min_version": "57.0"
+    }
+  }
+}

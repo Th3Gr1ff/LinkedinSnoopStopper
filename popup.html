@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Shield</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e14;
+      --surface: #111720;
+      --border: #1e2d3d;
+      --accent: #00c4ff;
+      --accent2: #ff3d6b;
+      --green: #00e676;
+      --text: #cdd9e5;
+      --text-dim: #546e7a;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+    }
+
+    body {
+      width: 300px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0d1b2a 0%, #0a0e14 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 18px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -20px; right: -20px;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle, rgba(0,196,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .shield-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #0a2a3d, #0d3a55);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 12px rgba(0,196,255,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+      flex-shrink: 0;
+    }
+
+    .shield-icon svg { width: 20px; height: 20px; }
+
+    .header-text h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+
+    .header-text p {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .status-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .status-text {
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--green);
+      letter-spacing: 0.3px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-cell {
+      background: var(--surface);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-label {
+      font-size: 9px;
+      font-family: var(--mono);
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 600;
+      font-family: var(--mono);
+      line-height: 1;
+    }
+
+    .stat-value.blocked { color: var(--accent2); }
+    .stat-value.session { color: var(--accent); }
+
+    .protections {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .protections-title {
+      font-size: 9px;
+      font-family: var(--mono);
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .protection-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .protection-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 11.5px;
+      color: var(--text);
+    }
+
+    .check {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+      background: rgba(0,230,118,0.1);
+      border: 1px solid rgba(0,230,118,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .check svg { width: 8px; height: 8px; }
+
+    .footer {
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .reset-btn {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.15s;
+    }
+
+    .reset-btn:hover {
+      color: var(--text);
+      border-color: var(--text-dim);
+    }
+
+    .uptime {
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--text-dim);
+    }
+
+    #sessionTime {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="shield-icon">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 5.5V11c0 5 3.5 9.3 8 10.5C16.5 20.3 20 16 20 11V5.5L12 2Z" stroke="#00c4ff" stroke-width="1.5" fill="rgba(0,196,255,0.1)"/>
+        <path d="M9 12l2 2 4-4" stroke="#00c4ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>LinkedIn Shield</h1>
+      <p>BROWSERGATE PROTECTION</p>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-dot"></div>
+    <span class="status-text">ACTIVE — All protections running</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-cell">
+      <span class="stat-label">Requests Blocked</span>
+      <span class="stat-value blocked" id="blockedCount">—</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-label">Session</span>
+      <span class="stat-value session" id="sessionTime">—</span>
+    </div>
+  </div>
+
+  <div class="protections">
+    <div class="protections-title">Active Protections</div>
+    <div class="protection-list">
+      <div class="protection-item">
+        <div class="check">
+          <svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#00e676" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        HUMAN Security / PerimeterX tracker
+      </div>
+      <div class="protection-item">
+        <div class="check">
+          <svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#00e676" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        Extension &amp; software scanning
+      </div>
+      <div class="protection-item">
+        <div class="check">
+          <svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#00e676" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        Google Analytics &amp; tag scripts
+      </div>
+      <div class="protection-item">
+        <div class="check">
+          <svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#00e676" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        Canvas &amp; audio fingerprinting
+      </div>
+      <div class="protection-item">
+        <div class="check">
+          <svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#00e676" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        Navigator plugin enumeration
+      </div>
+      <div class="protection-item">
+        <div class="check">
+          <svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#00e676" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        Tracking URL parameters (trk, lipi)
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <button class="reset-btn" id="resetBtn">Reset stats</button>
+    <span class="uptime">Session: <span id="uptimeLabel">—</span></span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
